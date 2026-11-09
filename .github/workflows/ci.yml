@@ -10,10 +10,10 @@ concurrency:
   cancel-in-progress: true
 jobs:
   quality:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
       - uses: oven-sh/setup-bun@v2
@@ -22,8 +22,6 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run typecheck
       - run: bun run lint:hub
-      # Full repository lint remains a separate visible gate until legacy
-      # formatting and generated-file violations are resolved in Lovable.
       - run: bun run test
       - run: bun run build
       - run: bunx playwright install --with-deps chromium
@@ -34,9 +32,9 @@ jobs:
           name: playwright-results
           path: test-results/
   repository-lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.4.4

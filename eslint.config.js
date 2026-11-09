@@ -37,4 +37,10 @@ export default tseslint.config(
     },
   },
   eslintPluginPrettier,
+  {
+    // Lovable owns these generated files. Keep semantic lint checks active,
+    // but do not require hand-formatting code that the generator overwrites.
+    files: ["src/integrations/supabase/*.ts", "src/routeTree.gen.ts"],
+    rules: { "prettier/prettier": "off" },
+  },
 );
