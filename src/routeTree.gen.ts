@@ -10,33 +10,136 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentsRouteImport } from './routes/agents'
+import { Route as ExplorerRouteImport } from './routes/explorer'
+import { Route as IntegrationsRouteImport } from './routes/integrations'
+import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as AdminIntegrationsRouteImport } from './routes/admin/integrations'
+import { Route as IntegrationsIndexRouteImport } from './routes/integrations/index'
+import { Route as IntegrationsConnectorIdRouteImport } from './routes/integrations/$connectorId'
+import { Route as IntegrationsNewRouteImport } from './routes/integrations/new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgentsRoute = AgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExplorerRoute = ExplorerRouteImport.update({
+  id: '/explorer',
+  path: '/explorer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntegrationsRoute = IntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIntegrationsRoute = AdminIntegrationsRouteImport.update({
+  id: '/admin/integrations',
+  path: '/admin/integrations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntegrationsIndexRoute = IntegrationsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => IntegrationsRoute,
+} as any)
+const IntegrationsConnectorIdRoute = IntegrationsConnectorIdRouteImport.update({
+  id: '/$connectorId',
+  path: '/$connectorId',
+  getParentRoute: () => IntegrationsRoute,
+} as any)
+const IntegrationsNewRoute = IntegrationsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => IntegrationsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
+  '/explorer': typeof ExplorerRoute
+  '/integrations': typeof IntegrationsRouteWithChildren
+  '/sign-in': typeof SignInRoute
+  '/admin/integrations': typeof AdminIntegrationsRoute
+  '/integrations/$connectorId': typeof IntegrationsConnectorIdRoute
+  '/integrations/new': typeof IntegrationsNewRoute
+  '/integrations/': typeof IntegrationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
+  '/explorer': typeof ExplorerRoute
+  '/sign-in': typeof SignInRoute
+  '/admin/integrations': typeof AdminIntegrationsRoute
+  '/integrations/$connectorId': typeof IntegrationsConnectorIdRoute
+  '/integrations/new': typeof IntegrationsNewRoute
+  '/integrations': typeof IntegrationsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
+  '/explorer': typeof ExplorerRoute
+  '/integrations': typeof IntegrationsRouteWithChildren
+  '/sign-in': typeof SignInRoute
+  '/admin/integrations': typeof AdminIntegrationsRoute
+  '/integrations/$connectorId': typeof IntegrationsConnectorIdRoute
+  '/integrations/new': typeof IntegrationsNewRoute
+  '/integrations/': typeof IntegrationsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/agents'
+    | '/explorer'
+    | '/integrations'
+    | '/sign-in'
+    | '/admin/integrations'
+    | '/integrations/$connectorId'
+    | '/integrations/new'
+    | '/integrations/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/agents'
+    | '/explorer'
+    | '/sign-in'
+    | '/admin/integrations'
+    | '/integrations/$connectorId'
+    | '/integrations/new'
+    | '/integrations'
+  id:
+    | '__root__'
+    | '/'
+    | '/agents'
+    | '/explorer'
+    | '/integrations'
+    | '/sign-in'
+    | '/admin/integrations'
+    | '/integrations/$connectorId'
+    | '/integrations/new'
+    | '/integrations/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentsRoute: typeof AgentsRoute
+  ExplorerRoute: typeof ExplorerRoute
+  IntegrationsRoute: typeof IntegrationsRouteWithChildren
+  SignInRoute: typeof SignInRoute
+  AdminIntegrationsRoute: typeof AdminIntegrationsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +151,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agents': {
+      id: '/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explorer': {
+      id: '/explorer'
+      path: '/explorer'
+      fullPath: '/explorer'
+      preLoaderRoute: typeof ExplorerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/integrations': {
+      id: '/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof IntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/integrations': {
+      id: '/admin/integrations'
+      path: '/admin/integrations'
+      fullPath: '/admin/integrations'
+      preLoaderRoute: typeof AdminIntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/integrations/': {
+      id: '/integrations/'
+      path: '/'
+      fullPath: '/integrations/'
+      preLoaderRoute: typeof IntegrationsIndexRouteImport
+      parentRoute: typeof IntegrationsRoute
+    }
+    '/integrations/$connectorId': {
+      id: '/integrations/$connectorId'
+      path: '/$connectorId'
+      fullPath: '/integrations/$connectorId'
+      preLoaderRoute: typeof IntegrationsConnectorIdRouteImport
+      parentRoute: typeof IntegrationsRoute
+    }
+    '/integrations/new': {
+      id: '/integrations/new'
+      path: '/new'
+      fullPath: '/integrations/new'
+      preLoaderRoute: typeof IntegrationsNewRouteImport
+      parentRoute: typeof IntegrationsRoute
+    }
   }
 }
 
+interface IntegrationsRouteChildren {
+  IntegrationsConnectorIdRoute: typeof IntegrationsConnectorIdRoute
+  IntegrationsNewRoute: typeof IntegrationsNewRoute
+  IntegrationsIndexRoute: typeof IntegrationsIndexRoute
+}
+
+const IntegrationsRouteChildren: IntegrationsRouteChildren = {
+  IntegrationsConnectorIdRoute: IntegrationsConnectorIdRoute,
+  IntegrationsNewRoute: IntegrationsNewRoute,
+  IntegrationsIndexRoute: IntegrationsIndexRoute,
+}
+
+const IntegrationsRouteWithChildren = IntegrationsRoute._addFileChildren(
+  IntegrationsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentsRoute: AgentsRoute,
+  ExplorerRoute: ExplorerRoute,
+  IntegrationsRoute: IntegrationsRouteWithChildren,
+  SignInRoute: SignInRoute,
+  AdminIntegrationsRoute: AdminIntegrationsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

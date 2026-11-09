@@ -1,0 +1,44 @@
+name: Quality checks
+on:
+  pull_request:
+  push:
+    branches: [main, 'arena/**']
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run lint:hub
+      # Full repository lint remains a separate visible gate until legacy
+      # formatting and generated-file violations are resolved in Lovable.
+      - run: bun run test
+      - run: bun run build
+      - run: bunx playwright install --with-deps chromium
+      - run: bun run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: test-results/
+  repository-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      - run: bun run lint

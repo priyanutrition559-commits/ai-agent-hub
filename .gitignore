@@ -30,3 +30,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local credentials and test artifacts (existing tracked .env is Lovable-managed)
+.env.*
+!.env.example
+playwright-report/
+test-results/
