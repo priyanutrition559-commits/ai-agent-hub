@@ -1,5 +1,7 @@
 # Technology Universe — implementation audit
 
+**Latest continuation:** see [Phases 1–10 status](PHASES-1-10-STATUS.md) for the refined workspace, recovery, command palette, 64 tests and 22 browser flows. The remainder of this file records the original foundation delivery.
+
 Date: 2026-11-09. **Status: secure foundation, not production-ready.**
 
 ## Delivered in this branch
