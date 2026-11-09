@@ -1,3 +1,4 @@
+import { collectDiscoveryPages } from "./discovery.server";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { authorizeTool, validateEndpoint, type ToolGrant } from "./policy";
@@ -19,6 +20,8 @@ export class McpAdapter {
   );
   private transport: StreamableHTTPClientTransport | undefined;
   async connect(endpoint: string, gateway: TrustedEgress, signal: AbortSignal) {
+    signal.throwIfAborted();
+    if (this.transport) throw new Error("Close the existing connection before reconnecting.");
     const normalized = validateEndpoint(endpoint);
     await gateway.assertEndpointAllowed(normalized);
     const transport = new StreamableHTTPClientTransport(new URL(normalized), {
@@ -52,18 +55,37 @@ export class McpAdapter {
     }
   }
   async discover(signal: AbortSignal) {
+    if (!this.transport) throw new Error("Connect before discovery.");
+    const boundedSignal = AbortSignal.any([signal, AbortSignal.timeout(30000)]);
     const capabilities = this.client.getServerCapabilities();
-    const options = { timeout: 15000, signal };
-    // Pagination is deliberately surfaced, not silently claimed as complete.
-    const tools = capabilities?.tools ? await this.client.listTools({}, options) : { tools: [] };
+    const options = { timeout: 15000, signal: boundedSignal };
+    const tools = capabilities?.tools
+      ? await collectDiscoveryPages(async (cursor) => {
+          const page = await this.client.listTools(cursor === undefined ? {} : { cursor }, options);
+          return { items: page.tools, nextCursor: page.nextCursor };
+        }, boundedSignal)
+      : [];
     const resources = capabilities?.resources
-      ? await this.client.listResources({}, options)
-      : { resources: [] };
+      ? await collectDiscoveryPages(async (cursor) => {
+          const page = await this.client.listResources(
+            cursor === undefined ? {} : { cursor },
+            options,
+          );
+          return { items: page.resources, nextCursor: page.nextCursor };
+        }, boundedSignal)
+      : [];
     const prompts = capabilities?.prompts
-      ? await this.client.listPrompts({}, options)
-      : { prompts: [] };
-    return { tools, resources, prompts };
+      ? await collectDiscoveryPages(async (cursor) => {
+          const page = await this.client.listPrompts(
+            cursor === undefined ? {} : { cursor },
+            options,
+          );
+          return { items: page.prompts, nextCursor: page.nextCursor };
+        }, boundedSignal)
+      : [];
+    return { tools: { tools }, resources: { resources }, prompts: { prompts } };
   }
+
   async invoke(
     name: string,
     schema: unknown,
@@ -71,6 +93,7 @@ export class McpAdapter {
     grant: ToolGrant,
     signal: AbortSignal,
   ) {
+    signal.throwIfAborted();
     authorizeTool(grant);
     validateToolArguments(schema, args);
     return boundedToolResult(

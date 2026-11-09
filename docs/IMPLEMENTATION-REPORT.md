@@ -9,7 +9,7 @@ Date: 2026-11-09. **Status: secure foundation, not production-ready.**
 - Preserved TanStack Start, Lovable integration middleware, shadcn components, existing theme tokens, CSRF protection and AI gateway conventions. No second app or fake brand asset.
 - Nine featured metadata entries: GitHub, Supabase, Figma, Vercel, Notion, Lovable, TinyFish, Exa, custom MCP. Categories cover the requested taxonomy; empty categories show a real empty state.
 - Real Supabase sign-up/sign-in/sign-out calls and auth-state subscription. Authenticated server functions validate configuration requests. Admin readiness checks server-controlled app_metadata.role, never user_metadata.
-- Official `@modelcontextprotocol/sdk` pinned to 1.32.2, conservative Ajv validator pinned to 8.17.1. Worker adapter supports Streamable HTTP initialization, capability negotiation, first-page tool/resource/prompt discovery, abort signals, timeouts, tool calls and close. No hosted route invokes this adapter.
+- Official `@modelcontextprotocol/sdk` pinned to 1.32.2, conservative Ajv validator pinned to 8.17.1. Worker adapter supports Streamable HTTP initialization, capability negotiation, bounded paginated tool/resource/prompt discovery, abort signals, timeouts, tool calls and close. No hosted route invokes this adapter.
 - Default-deny policy, scope/owner checks, exact-call approval prerequisite, no write retry, bounded text-only untrusted output and metadata redaction helpers.
 - Platform-neutral workspace contracts prepared for later native clients. CI checks and Playwright specifications added.
 
@@ -19,14 +19,14 @@ Date: 2026-11-09. **Status: secure foundation, not production-ready.**
 |---|---|
 | `npm run typecheck` | Pass |
 | `npm run build` | Pass; production Cloudflare/Nitro output produced |
-| `npm test` | Pass: 41 tests across 3 files |
+| `npm test` | Pass: 49 tests across 4 files |
 | `npm run lint:hub` | Pass |
-| `npm run lint` | Fail: 421 formatting errors, 13 warnings in existing files; no broad generated-file rewriting performed |
-| `npm run test:e2e` | Blocked: all 5 specs fail at browser launch because Playwright Chromium is absent. No browser acceptance claim |
-| HTTP preview smoke | Pass: eight routes return 200 and app content using the actual preview Host header; browser interaction not verified |
+| `npm run lint` | Pass: 0 errors, 13 existing Fast Refresh warnings; generated-code formatting exempted, semantic lint retained |
+| `npm run test:e2e` | Pass: 7 Chromium browser flows, using a locally provisioned Chromium 141 binary (see runbook) |
+| HTTP preview smoke | Pass: eight routes return 200 and app content using the actual preview Host header; browser interaction covered separately |
 | Provider/live database integration tests | Not run: no authorized deployment/gateway/provider environment |
 
-Initial `npm install --ignore-scripts` failed with an npm resolver error (`edgesOut`). `bun install` using the repository's lockfile succeeded. Use Bun 1.4.4 for reproducible installation. CI contains a separate failing repository-lint gate rather than hiding this debt. CI results must be checked after push; local passes do not imply remote passes.
+Initial `npm install --ignore-scripts` failed with an npm resolver error (`edgesOut`). `bun install` using the repository's lockfile succeeded. Use Bun 1.4.4 for reproducible installation. CI retains a separate repository-lint gate. Owned files were formatted; Lovable-generated Supabase files and route tree retain semantic lint but are exempt from hand-formatting requirements. CI results must be checked after push; local passes do not imply remote passes.
 
 ## Critical limits / not delivered
 
@@ -45,3 +45,11 @@ This is **not** a complete dynamic MCP Hub. Server mutation functions deliberate
 ## Next safe phase
 
 In the Lovable editor, apply DATABASE-HANDOFF.md and return the generated schema. Configure secrets privately in Lovable/your secret manager. Deploy and security-test the egress worker. Implement transactional authenticated CRUD/audit/approval RPCs and integration tests. Only then connect provider OAuth and wire the existing UI to durable operations. Production release must wait for all CI gates, browser tests and live RLS isolation tests to pass.
+
+## Continuation: quality and protocol hardening
+
+- Investigated the original GitHub failure through job metadata: typecheck, unit tests and build passed; browser dependency installation failed. Detailed log download was blocked by sandbox host restrictions. The job noted ubuntu-latest migration to Ubuntu 26; pinned both jobs to Ubuntu 24.04, supported by the pinned Playwright version, and updated checkout/setup-node actions.
+- Provisioned local Chromium 141 from `@sparticuz/chromium` outside the repo via the allowed npm registry. No browser binaries or new runtime dependency were committed. Browser execution required its bundled shared libraries.
+- Browser tests exposed pre-hydration form interactions being dropped. Search/filter and draft/account forms now stay disabled until React attaches event handlers. Added theme persistence and JavaScript-disabled SSR regression flows.
+- Discovery now follows pagination, rejects repeated/oversized cursors and incomplete snapshots, caps each collection at 5 pages / 200 records / 256 KiB, and applies a shared 30-second cancellation deadline. These are post-parse controls; the gateway still needs wire-byte and network protections.
+- No managed schema, live connector execution or approval persistence was enabled. The production blockers above remain.

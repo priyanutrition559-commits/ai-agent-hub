@@ -6,13 +6,13 @@
 2. Existing `.env` is Lovable-managed. Never paste credentials in chat, source, tickets or logs. `.env.example` lists variable names without values. Configure new values in Lovable Secrets or your production secret manager; never put private variables behind `VITE_`.
 3. Run `bun run dev -- --host 0.0.0.0`. Browser-to-app requests use TanStack same-origin server functions. Do not configure a browser to call a sandbox localhost backend.
 4. `bun run typecheck`, `bun run lint:hub`, `bun run lint`, `bun run test`, `bun run build`.
-5. Where browser downloads are allowed: `bunx playwright install --with-deps chromium`, then `bun run test:e2e`. This sandbox has no Chromium and outbound host restrictions prevent the standard browser CDN download. CI installs it on GitHub-hosted runners.
+5. Where browser downloads are allowed: `bunx playwright install --with-deps chromium`, then `bun run test:e2e`. Standard browser CDN downloads are unavailable in this sandbox. For local verification, Chromium 141 was provisioned outside the repo from `@sparticuz/chromium@141.0.0` via the npm registry, including its bundled al2023 libraries. Run with `LD_LIBRARY_PATH=/tmp/al2023/lib PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/tmp/chromium bun run test:e2e` after local provisioning. These temporary paths are not deployment configuration and must be reprovisioned when the sandbox resets. CI uses Playwright’s default pinned browser on Ubuntu 24.04.
 6. No custom-server draft produces an external network request. Live authentication requires the real Lovable/Supabase configuration and allowed email/redirect settings. Email confirmation and production delivery have not been verified here.
 
 ## Deployment prerequisite checklist — all must be complete
 
 - Have Lovable apply DATABASE-HANDOFF.md and regenerate types through its managed workflow.
-- Resolve repository-wide lint debt, run browser flows and two-user RLS integration suites. Enable required CI checks on the PR. Do not merge a red check as production-ready.
+- Keep repository-wide lint passing, run browser flows and two-user RLS integration suites. Enable required CI checks on the PR. Do not merge a red check as production-ready.
 - Implement atomic persistence, approvals and audit RPCs. Every live mutation must fail closed if durable auditing fails.
 - Provision an isolated gateway/worker and test DNS/IP pinning, redirects, IPv4/IPv6 bypasses, streaming limits, credentials and timeout/cancellation handling. No shared hosted-process stdio.
 - Implement secret references against a vault/KMS. Rotate by creating a new version, reauthorizing, verifying scope/health, atomically switching reference and revoking the old version. Revoke queued jobs on disconnect. Never display token values.

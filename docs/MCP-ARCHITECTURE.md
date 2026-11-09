@@ -12,7 +12,7 @@ Target: authenticated API â†’ RLS-scoped transactional storage/approval/audit â†
 
 - SDK: `@modelcontextprotocol/sdk` exactly **1.32.2**, pinned in package.json and bun.lock.
 - Installed SDK's latest protocol constant: **2025-11-25**. The official SDK negotiates with its supported versions; the adapter exposes the actual `transport.protocolVersion`, server identity and capabilities after initialize. No connection means no protocol version in the UI.
-- Streamable HTTP is implemented by the SDK. Pagination cursors are surfaced; complete multi-page discovery persistence is pending. Server-advertised tool safety annotations are never permission grants.
+- Streamable HTTP is implemented by the SDK. Discovery follows up to five pages per collection, rejecting cursor loops, excessive metadata and incomplete snapshots. Limits are 200 records / 256 KiB per collection with a shared 30-second deadline; persistence is pending. Server-advertised tool safety annotations are never permission grants.
 - AbortSignal and 15-second SDK request timeout are supplied. Tool output is text-only, at most 64 KiB after JSON encoding; schemas at most 16k characters and conservative subset/depth. The gateway must also cap bytes before SDK parsing, cap streaming duration and reject unsupported wire content.
 - Remote SSE-only transports are not implemented. SSE framing within Streamable HTTP is distinct from the legacy SSE transport.
 - stdio never runs in the browser or shared hosted app; future isolated self-hosted worker only. Roots, sampling, elicitation and experimental tasks are not advertised or enabled.
