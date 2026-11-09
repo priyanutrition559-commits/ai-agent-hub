@@ -1,13 +1,17 @@
+import { useIsPresent } from "motion/react";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import type { Connector } from "@/features/integrations/catalogue";
 import { StatusBadge } from "./status-badge";
 export function ConnectorCard({ connector: c }: { connector: Connector }) {
+  const present = useIsPresent();
   return (
     <Link
+      aria-hidden={!present}
+      tabIndex={present ? undefined : -1}
       to="/integrations/$connectorId"
       params={{ connectorId: c.id }}
-      className="surface-card group flex flex-col p-6 transition-colors hover:border-primary/40"
+      className="surface-card group flex h-full flex-col p-6 transition-colors hover:border-primary/40"
     >
       <div className="mb-5 flex items-center justify-between">
         <span

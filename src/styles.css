@@ -211,3 +211,11 @@ body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-sm
 button:not(:disabled), select:not(:disabled) { cursor: pointer; }
 button:disabled { cursor: not-allowed; }
 ::selection { background: oklch(0.81 0.08 160 / .45); }
+
+.marketing-hero {
+  background: radial-gradient(ellipse at 85% 40%, oklch(0.72 0.11 164 / .12), transparent 58%), var(--background);
+}
+.ecosystem-scene { contain: layout style; }
+@media (prefers-reduced-motion: reduce) {
+  .ecosystem-scene { perspective: none !important; }
+}

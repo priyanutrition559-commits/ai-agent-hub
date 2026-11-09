@@ -1,3 +1,4 @@
+import { EcosystemHero } from "@/components/marketing/ecosystem-hero";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Bot,
@@ -13,14 +14,14 @@ import { AppShell } from "@/components/layout/app-shell";
 import { StatusBadge } from "@/components/workspace/status-badge";
 import { connectors } from "@/features/integrations/catalogue";
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [{ title: "Technology Universe | Your agent workspace" }] }),
+  head: () => ({ meta: [{ title: "Ecosystem Control Panel | Stack Atlas" }] }),
   component: Index,
 });
 function Index() {
   return (
     <AppShell>
       <div className="mb-7 flex flex-wrap items-center justify-between gap-3">
-        <p className="eyebrow">Your workspace, thoughtfully connected</p>
+        <p className="eyebrow">Ecosystem Control Panel</p>
         <StatusBadge status="partial" label="Foundation preview" />
       </div>
       <section className="hero-wash surface-card grid overflow-hidden p-7 md:p-10 xl:grid-cols-[1.3fr_1fr] xl:gap-10">
@@ -52,50 +53,7 @@ function Index() {
             </Link>
           </div>
         </div>
-        <div
-          className="mt-10 flex flex-col justify-center xl:mt-0"
-          aria-label="Illustrative workflow, not a live execution"
-        >
-          <div className="rounded-2xl border bg-background/70 p-5">
-            <div className="mb-5 flex items-center justify-between">
-              <span className="eyebrow">An intentional workflow</span>
-              <span className="text-[10px] text-muted-foreground">Illustration</span>
-            </div>
-            <div className="flex items-center gap-3 rounded-xl border bg-card p-4">
-              <div className="rounded-lg bg-primary/10 p-3 text-primary">
-                <Bot size={22} />
-              </div>
-              <div>
-                <p className="text-sm font-semibold">Your research assistant</p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  A purpose. Clear limits. Your control.
-                </p>
-              </div>
-            </div>
-            <div className="ml-9 h-8 border-l border-dashed border-primary/40" />
-            <div className="ml-4 rounded-xl border border-primary/25 bg-primary/5 p-4">
-              <p className="flex items-center gap-2 text-xs font-semibold text-primary">
-                <ShieldCheck size={16} />
-                Permission & approval gate
-              </p>
-              <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                Only explicitly allowed tools. Sensitive actions wait for you.
-              </p>
-            </div>
-            <div className="ml-9 h-8 border-l border-dashed border-primary/40" />
-            <div className="grid grid-cols-3 gap-2">
-              {["GitHub", "Notion", "Exa"].map((name) => (
-                <div key={name} className="rounded-xl border bg-card p-3 text-center">
-                  <p className="text-xs font-semibold">{name}</p>
-                  <p className="mt-1 text-[9px] text-muted-foreground">Not connected</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <p className="mt-3 text-center text-[10px] text-muted-foreground">
-            A design example. No agents or tools are executing.
-          </p>
-        </div>
+        <EcosystemHero />
       </section>
       <div className="my-6 grid gap-3 sm:grid-cols-3">
         {[
