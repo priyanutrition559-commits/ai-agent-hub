@@ -1,91 +1,143 @@
+import { CommandPalette } from "@/components/workspace/command-palette";
 import { useHydrated } from "@/hooks/use-hydrated";
+import { useTheme } from "@/hooks/use-theme";
 import { Link } from "@tanstack/react-router";
-import { Bot, Compass, LayoutGrid, Moon, ShieldCheck, Sun, Workflow } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
+import {
+  Bot,
+  BookOpen,
+  Compass,
+  LayoutGrid,
+  Moon,
+  ShieldCheck,
+  Sun,
+  Workflow,
+  ArrowUpRight,
+  ListChecks,
+  UserRound,
+} from "lucide-react";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const hydrated = useHydrated();
-  const [dark, setDark] = useState(false);
-  useEffect(() => {
-    const preference = localStorage.getItem("tu-theme");
-    const enabled = preference
-      ? preference === "dark"
-      : matchMedia("(prefers-color-scheme: dark)").matches;
-    setDark(enabled);
-    document.documentElement.classList.toggle("dark", enabled);
-  }, []);
+  const { dark, toggle } = useTheme();
   const links = [
     { to: "/", label: "Overview", icon: LayoutGrid },
     { to: "/explorer", label: "Technology Explorer", icon: Compass },
     { to: "/integrations", label: "Integrations", icon: Workflow },
     { to: "/agents", label: "Agent builder", icon: Bot },
+    { to: "/docs", label: "Learning & docs", icon: BookOpen },
+    { to: "/roadmap", label: "Build roadmap", icon: ListChecks },
     { to: "/admin/integrations", label: "MCP & Agent Connections", icon: ShieldCheck },
   ];
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <a className="sr-only focus:not-sr-only focus:p-4" href="#main">
+      <a
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-card focus:p-4"
+        href="#main"
+      >
         Skip to content
       </a>
-      <header className="flex h-20 items-center justify-between border-b px-5 lg:px-9">
-        <Link to="/" className="flex items-center gap-3 font-semibold">
-          <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <Workflow size={20} />
+      <header className="flex h-[76px] items-center justify-between gap-3 border-b bg-card px-4 sm:px-7">
+        <Link to="/" className="flex min-w-0 items-center gap-2.5 font-semibold tracking-tight">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+            <Workflow size={19} aria-hidden="true" />
           </span>
-          <span>
-            Technology<span className="font-normal text-muted-foreground"> Universe</span>
+          <span className="text-sm sm:text-base">
+            Technology
+            <span className="block text-[10px] font-medium uppercase tracking-[.24em] text-muted-foreground sm:ml-1 sm:inline sm:text-base sm:font-normal sm:normal-case sm:tracking-tight">
+              {" "}
+              Universe
+            </span>
           </span>
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-5">
+          <Link to="/product" className="hidden text-xs font-medium text-muted-foreground sm:block">
+            About the workspace
+          </Link>
+          <CommandPalette />
           <Button
             variant="ghost"
             size="icon"
             disabled={!hydrated}
             aria-label={dark ? "Use light theme" : "Use dark theme"}
-            onClick={() => {
-              const next = !dark;
-              setDark(next);
-              document.documentElement.classList.toggle("dark", next);
-              localStorage.setItem("tu-theme", next ? "dark" : "light");
-            }}
+            onClick={toggle}
           >
             {dark ? <Sun size={18} /> : <Moon size={18} />}
           </Button>
-          <Link to="/sign-in" className="text-sm font-medium">
-            Account →
+          <Link
+            to="/sign-in"
+            aria-label="Account"
+            className="rounded-full border bg-background px-3 py-2.5 text-xs font-semibold sm:px-4"
+          >
+            <span className="hidden sm:inline">Account ↗</span>
+            <UserRound size={17} className="sm:hidden" aria-hidden="true" />
           </Link>
         </div>
       </header>
-      <div className="mx-auto flex max-w-[1600px] flex-col lg:flex-row">
-        <aside className="border-b p-5 lg:min-h-[calc(100vh-5rem)] lg:w-64 lg:shrink-0 lg:border-r lg:border-b-0 lg:p-6">
-          <p className="mb-5 hidden text-xs font-medium tracking-widest text-muted-foreground lg:block">
-            YOUR WORKSPACE
-          </p>
-          <nav aria-label="Main navigation" className="flex flex-wrap gap-2 lg:flex-col">
+      <div className="mx-auto flex max-w-[1720px] flex-col lg:flex-row">
+        <aside className="border-b bg-card px-4 py-3 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col lg:border-r lg:border-b-0 lg:px-5 lg:py-8">
+          <div className="mb-8 hidden rounded-xl border bg-background p-3 lg:block">
+            <p className="text-xs font-semibold">Personal workspace</p>
+            <p className="mt-1.5 flex items-center gap-1.5 text-[10px] text-muted-foreground">
+              <span className="size-1.5 rounded-full bg-primary" />
+              Preview · execution disabled
+            </p>
+          </div>
+          <p className="eyebrow mb-4 hidden px-3 lg:block">Workspace</p>
+          <nav
+            aria-label="Main navigation"
+            className="flex gap-1 overflow-x-auto lg:flex-col lg:overflow-visible"
+          >
             {links.map(({ to, label, icon: Icon }) => (
               <Link
                 key={to}
                 to={to}
-                activeOptions={{ exact: true }}
-                activeProps={{ className: "bg-secondary text-foreground" }}
-                className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm text-muted-foreground hover:bg-secondary"
+                activeOptions={{ exact: to === "/" }}
+                activeProps={{ className: "!bg-primary/10 !text-primary" }}
+                className="flex min-h-11 shrink-0 items-center gap-3 rounded-lg px-3 py-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary"
               >
-                <Icon size={17} />
+                <Icon size={17} aria-hidden="true" />
                 {label}
               </Link>
             ))}
           </nav>
-          <div className="mt-14 hidden rounded-xl border p-4 lg:block">
-            <ShieldCheck size={20} className="mb-3" />
-            <p className="text-sm font-medium">Permission first.</p>
-            <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-              Your agents only get the access you explicitly approve. New tools start disabled.
-            </p>
+          <div className="mt-auto hidden pt-10 lg:block">
+            <div className="rounded-xl border bg-background p-4">
+              <ShieldCheck className="mb-3 text-primary" size={20} />
+              <p className="text-xs font-semibold">Permission first. Always.</p>
+              <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                Connect intentionally. Review every tool. Keep sensitive actions in your hands.
+              </p>
+              <Link
+                to="/docs/$slug"
+                params={{ slug: "security" }}
+                className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-primary"
+              >
+                Our security approach <ArrowUpRight size={13} />
+              </Link>
+            </div>
           </div>
         </aside>
-        <main id="main" className="min-w-0 flex-1 p-5 md:p-9 lg:p-12">
-          {children}
-        </main>
+        <div className="min-w-0 flex-1">
+          <main id="main" tabIndex={-1} className="min-h-[75vh] p-5 outline-none md:p-8 xl:p-12">
+            {children}
+          </main>
+          <footer className="mx-5 flex flex-wrap items-center justify-between gap-4 border-t py-6 text-[11px] text-muted-foreground md:mx-8 xl:mx-12">
+            <span>Technology Universe · Built with intention.</span>
+            <nav aria-label="Footer navigation" className="flex flex-wrap gap-5">
+              <Link to="/docs/$slug" params={{ slug: "getting-started" }}>
+                Setup guide
+              </Link>
+              <Link to="/docs/$slug" params={{ slug: "security" }}>
+                Security
+              </Link>
+              <Link to="/docs/$slug" params={{ slug: "release-readiness" }}>
+                Release status
+              </Link>
+            </nav>
+          </footer>
+        </div>
       </div>
     </div>
   );

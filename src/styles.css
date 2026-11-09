@@ -162,3 +162,52 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Technology Universe: warm surfaces, forest accents, restrained elevation. */
+:root {
+  color-scheme: light;
+  --radius: 0.75rem;
+  --background: oklch(0.982 0.005 85);
+  --foreground: oklch(0.24 0.018 165);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --primary: oklch(0.39 0.075 166);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.955 0.009 150);
+  --secondary-foreground: oklch(0.3 0.03 166);
+  --muted: oklch(0.955 0.005 85);
+  --muted-foreground: oklch(0.47 0.018 165);
+  --accent: oklch(0.945 0.025 150);
+  --accent-foreground: oklch(0.29 0.05 166);
+  --border: oklch(0.91 0.008 140);
+  --input: oklch(0.84 0.012 140);
+  --ring: oklch(0.46 0.09 166);
+}
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.17 0.012 165);
+  --foreground: oklch(0.95 0.008 110);
+  --card: oklch(0.205 0.015 165);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.8 0.09 160);
+  --primary-foreground: oklch(0.19 0.035 165);
+  --secondary: oklch(0.26 0.017 165);
+  --secondary-foreground: oklch(0.9 0.018 160);
+  --muted: oklch(0.25 0.012 165);
+  --muted-foreground: oklch(0.74 0.02 155);
+  --accent: oklch(0.29 0.03 165);
+  --accent-foreground: oklch(0.94 0.02 160);
+  --border: oklch(0.33 0.018 165);
+  --input: oklch(0.45 0.023 165);
+  --ring: oklch(0.78 0.08 160);
+}
+body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+.eyebrow { font-size: 10px; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; color: var(--muted-foreground); }
+.surface-card { background: var(--card); border: 1px solid var(--border); border-radius: 1rem; box-shadow: 0 2px 3px oklch(0.2 0.01 165 / .025); }
+.hero-wash { background: radial-gradient(ellipse at 95% 25%, oklch(0.79 0.08 155 / .18), transparent 55%), var(--card); }
+:where(a, button, input, select, textarea):focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
+button:not(:disabled), select:not(:disabled) { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+::selection { background: oklch(0.81 0.08 160 / .45); }

@@ -11,10 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgentsRouteImport } from './routes/agents'
+import { Route as DocsRouteImport } from './routes/docs'
 import { Route as ExplorerRouteImport } from './routes/explorer'
 import { Route as IntegrationsRouteImport } from './routes/integrations'
+import { Route as ProductRouteImport } from './routes/product'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as AccountForgotPasswordRouteImport } from './routes/account/forgot-password'
+import { Route as AccountRecoveryRouteImport } from './routes/account/recovery'
 import { Route as AdminIntegrationsRouteImport } from './routes/admin/integrations'
+import { Route as DocsIndexRouteImport } from './routes/docs/index'
+import { Route as DocsSlugRouteImport } from './routes/docs/$slug'
 import { Route as IntegrationsIndexRouteImport } from './routes/integrations/index'
 import { Route as IntegrationsConnectorIdRouteImport } from './routes/integrations/$connectorId'
 import { Route as IntegrationsNewRouteImport } from './routes/integrations/new'
@@ -29,6 +36,11 @@ const AgentsRoute = AgentsRouteImport.update({
   path: '/agents',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExplorerRoute = ExplorerRouteImport.update({
   id: '/explorer',
   path: '/explorer',
@@ -39,15 +51,45 @@ const IntegrationsRoute = IntegrationsRouteImport.update({
   path: '/integrations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductRoute = ProductRouteImport.update({
+  id: '/product',
+  path: '/product',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignInRoute = SignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountForgotPasswordRoute = AccountForgotPasswordRouteImport.update({
+  id: '/account/forgot-password',
+  path: '/account/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRecoveryRoute = AccountRecoveryRouteImport.update({
+  id: '/account/recovery',
+  path: '/account/recovery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIntegrationsRoute = AdminIntegrationsRouteImport.update({
   id: '/admin/integrations',
   path: '/admin/integrations',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DocsIndexRoute = DocsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsSlugRoute = DocsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => DocsRoute,
 } as any)
 const IntegrationsIndexRoute = IntegrationsIndexRouteImport.update({
   id: '/',
@@ -68,34 +110,54 @@ const IntegrationsNewRoute = IntegrationsNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agents': typeof AgentsRoute
+  '/docs': typeof DocsRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/integrations': typeof IntegrationsRouteWithChildren
+  '/product': typeof ProductRoute
+  '/roadmap': typeof RoadmapRoute
   '/sign-in': typeof SignInRoute
+  '/account/forgot-password': typeof AccountForgotPasswordRoute
+  '/account/recovery': typeof AccountRecoveryRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
+  '/docs/$slug': typeof DocsSlugRoute
   '/integrations/$connectorId': typeof IntegrationsConnectorIdRoute
   '/integrations/new': typeof IntegrationsNewRoute
+  '/docs/': typeof DocsIndexRoute
   '/integrations/': typeof IntegrationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agents': typeof AgentsRoute
   '/explorer': typeof ExplorerRoute
+  '/product': typeof ProductRoute
+  '/roadmap': typeof RoadmapRoute
   '/sign-in': typeof SignInRoute
+  '/account/forgot-password': typeof AccountForgotPasswordRoute
+  '/account/recovery': typeof AccountRecoveryRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
+  '/docs/$slug': typeof DocsSlugRoute
   '/integrations/$connectorId': typeof IntegrationsConnectorIdRoute
   '/integrations/new': typeof IntegrationsNewRoute
+  '/docs': typeof DocsIndexRoute
   '/integrations': typeof IntegrationsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agents': typeof AgentsRoute
+  '/docs': typeof DocsRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/integrations': typeof IntegrationsRouteWithChildren
+  '/product': typeof ProductRoute
+  '/roadmap': typeof RoadmapRoute
   '/sign-in': typeof SignInRoute
+  '/account/forgot-password': typeof AccountForgotPasswordRoute
+  '/account/recovery': typeof AccountRecoveryRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
+  '/docs/$slug': typeof DocsSlugRoute
   '/integrations/$connectorId': typeof IntegrationsConnectorIdRoute
   '/integrations/new': typeof IntegrationsNewRoute
+  '/docs/': typeof DocsIndexRoute
   '/integrations/': typeof IntegrationsIndexRoute
 }
 export interface FileRouteTypes {
@@ -103,42 +165,67 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/agents'
+    | '/docs'
     | '/explorer'
     | '/integrations'
+    | '/product'
+    | '/roadmap'
     | '/sign-in'
+    | '/account/forgot-password'
+    | '/account/recovery'
     | '/admin/integrations'
+    | '/docs/$slug'
     | '/integrations/$connectorId'
     | '/integrations/new'
+    | '/docs/'
     | '/integrations/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/agents'
     | '/explorer'
+    | '/product'
+    | '/roadmap'
     | '/sign-in'
+    | '/account/forgot-password'
+    | '/account/recovery'
     | '/admin/integrations'
+    | '/docs/$slug'
     | '/integrations/$connectorId'
     | '/integrations/new'
+    | '/docs'
     | '/integrations'
   id:
     | '__root__'
     | '/'
     | '/agents'
+    | '/docs'
     | '/explorer'
     | '/integrations'
+    | '/product'
+    | '/roadmap'
     | '/sign-in'
+    | '/account/forgot-password'
+    | '/account/recovery'
     | '/admin/integrations'
+    | '/docs/$slug'
     | '/integrations/$connectorId'
     | '/integrations/new'
+    | '/docs/'
     | '/integrations/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgentsRoute: typeof AgentsRoute
+  DocsRoute: typeof DocsRouteWithChildren
   ExplorerRoute: typeof ExplorerRoute
   IntegrationsRoute: typeof IntegrationsRouteWithChildren
+  ProductRoute: typeof ProductRoute
+  RoadmapRoute: typeof RoadmapRoute
   SignInRoute: typeof SignInRoute
+  AccountForgotPasswordRoute: typeof AccountForgotPasswordRoute
+  AccountRecoveryRoute: typeof AccountRecoveryRoute
   AdminIntegrationsRoute: typeof AdminIntegrationsRoute
 }
 
@@ -158,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/explorer': {
       id: '/explorer'
       path: '/explorer'
@@ -172,11 +266,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntegrationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/product': {
+      id: '/product'
+      path: '/product'
+      fullPath: '/product'
+      preLoaderRoute: typeof ProductRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sign-in': {
       id: '/sign-in'
       path: '/sign-in'
       fullPath: '/sign-in'
       preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/forgot-password': {
+      id: '/account/forgot-password'
+      path: '/account/forgot-password'
+      fullPath: '/account/forgot-password'
+      preLoaderRoute: typeof AccountForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/recovery': {
+      id: '/account/recovery'
+      path: '/account/recovery'
+      fullPath: '/account/recovery'
+      preLoaderRoute: typeof AccountRecoveryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/integrations': {
@@ -185,6 +307,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/integrations'
       preLoaderRoute: typeof AdminIntegrationsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/docs/': {
+      id: '/docs/'
+      path: '/'
+      fullPath: '/docs/'
+      preLoaderRoute: typeof DocsIndexRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/$slug': {
+      id: '/docs/$slug'
+      path: '/$slug'
+      fullPath: '/docs/$slug'
+      preLoaderRoute: typeof DocsSlugRouteImport
+      parentRoute: typeof DocsRoute
     }
     '/integrations/': {
       id: '/integrations/'
@@ -210,6 +346,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DocsRouteChildren {
+  DocsSlugRoute: typeof DocsSlugRoute
+  DocsIndexRoute: typeof DocsIndexRoute
+}
+
+const DocsRouteChildren: DocsRouteChildren = {
+  DocsSlugRoute: DocsSlugRoute,
+  DocsIndexRoute: DocsIndexRoute,
+}
+
+const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
+
 interface IntegrationsRouteChildren {
   IntegrationsConnectorIdRoute: typeof IntegrationsConnectorIdRoute
   IntegrationsNewRoute: typeof IntegrationsNewRoute
@@ -229,9 +377,14 @@ const IntegrationsRouteWithChildren = IntegrationsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgentsRoute: AgentsRoute,
+  DocsRoute: DocsRouteWithChildren,
   ExplorerRoute: ExplorerRoute,
   IntegrationsRoute: IntegrationsRouteWithChildren,
+  ProductRoute: ProductRoute,
+  RoadmapRoute: RoadmapRoute,
   SignInRoute: SignInRoute,
+  AccountForgotPasswordRoute: AccountForgotPasswordRoute,
+  AccountRecoveryRoute: AccountRecoveryRoute,
   AdminIntegrationsRoute: AdminIntegrationsRoute,
 }
 export const routeTree = rootRouteImport
