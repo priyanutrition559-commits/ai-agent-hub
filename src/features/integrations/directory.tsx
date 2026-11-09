@@ -1,3 +1,4 @@
+import { useHydrated } from "@/hooks/use-hydrated";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Plus, Search, ShieldCheck } from "lucide-react";
 import { useState } from "react";
@@ -6,6 +7,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { categories, searchConnectors } from "./catalogue";
 
 export function Directory({ explorer = false }: { explorer?: boolean }) {
+  const hydrated = useHydrated();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All categories");
   const results = searchConnectors(query, category);
@@ -64,6 +66,7 @@ export function Directory({ explorer = false }: { explorer?: boolean }) {
         <div className="relative w-full sm:w-72">
           <Search size={16} className="absolute top-3 left-3 text-muted-foreground" />
           <Input
+            disabled={!hydrated}
             aria-label="Search connectors"
             className="pl-9"
             placeholder="Search tools and connections…"
@@ -76,6 +79,7 @@ export function Directory({ explorer = false }: { explorer?: boolean }) {
         {categories.map((c) => (
           <button
             key={c}
+            disabled={!hydrated}
             onClick={() => setCategory(c)}
             aria-pressed={category === c}
             className={`shrink-0 rounded-full border px-4 py-2 text-xs font-medium ${category === c ? "border-primary bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:bg-secondary"}`}

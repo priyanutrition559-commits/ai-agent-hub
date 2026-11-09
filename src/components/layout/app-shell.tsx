@@ -1,9 +1,11 @@
+import { useHydrated } from "@/hooks/use-hydrated";
 import { Link } from "@tanstack/react-router";
 import { Bot, Compass, LayoutGrid, Moon, ShieldCheck, Sun, Workflow } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const hydrated = useHydrated();
   const [dark, setDark] = useState(false);
   useEffect(() => {
     const preference = localStorage.getItem("tu-theme");
@@ -38,6 +40,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Button
             variant="ghost"
             size="icon"
+            disabled={!hydrated}
             aria-label={dark ? "Use light theme" : "Use dark theme"}
             onClick={() => {
               const next = !dark;

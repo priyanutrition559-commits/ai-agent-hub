@@ -40,3 +40,27 @@ test("mobile navigation and reduced motion remain usable", async ({ page }) => {
     true,
   );
 });
+
+test("theme choice survives navigation and reload", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/integrations");
+  await page.getByRole("button", { name: "Use dark theme" }).click();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  await page.reload();
+  await expect(page.getByRole("button", { name: "Use light theme" })).toBeEnabled();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+});
+
+test("server-rendered controls stay disabled until hydration", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const page = await context.newPage();
+    await page.goto("http://127.0.0.1:5173/integrations");
+    await expect(page.getByRole("textbox", { name: "Search connectors" })).toBeDisabled();
+    await page.goto("http://127.0.0.1:5173/integrations/new");
+    await expect(page.getByLabel("Server name")).toBeDisabled();
+    await expect(page.getByRole("button", { name: "Validate configuration" })).toBeDisabled();
+  } finally {
+    await context.close();
+  }
+});

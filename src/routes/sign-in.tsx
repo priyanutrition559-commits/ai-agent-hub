@@ -1,3 +1,4 @@
+import { useHydrated } from "@/hooks/use-hydrated";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -6,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/sign-in")({ component: Account });
 function Account() {
+  const hydrated = useHydrated();
   const [email, setEmail] = useState<string | null>(null);
   const [mode, setMode] = useState("signin");
   const [message, setMessage] = useState("");
@@ -77,38 +79,40 @@ function Account() {
           </div>
         ) : (
           <form onSubmit={submit} className="mt-6 space-y-5">
-            <label className="block text-sm">
-              Email
-              <Input name="email" type="email" autoComplete="email" required className="mt-2" />
-            </label>
-            <label className="block text-sm">
-              Password
-              <Input
-                name="password"
-                type="password"
-                minLength={8}
-                maxLength={128}
-                autoComplete={mode === "signup" ? "new-password" : "current-password"}
-                required
-                className="mt-2"
-              />
-            </label>
-            <Button disabled={busy} type="submit" className="w-full">
-              {busy ? "Please wait…" : mode === "signup" ? "Sign up" : "Sign in"}
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              className="w-full"
-              onClick={() => {
-                setMode(mode === "signup" ? "signin" : "signup");
-                setMessage("");
-              }}
-            >
-              {mode === "signup"
-                ? "Already have an account? Sign in"
-                : "New here? Create an account"}
-            </Button>
+            <fieldset disabled={!hydrated || busy} className="contents">
+              <label className="block text-sm">
+                Email
+                <Input name="email" type="email" autoComplete="email" required className="mt-2" />
+              </label>
+              <label className="block text-sm">
+                Password
+                <Input
+                  name="password"
+                  type="password"
+                  minLength={8}
+                  maxLength={128}
+                  autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                  required
+                  className="mt-2"
+                />
+              </label>
+              <Button disabled={busy} type="submit" className="w-full">
+                {busy ? "Please wait…" : mode === "signup" ? "Sign up" : "Sign in"}
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full"
+                onClick={() => {
+                  setMode(mode === "signup" ? "signin" : "signup");
+                  setMessage("");
+                }}
+              >
+                {mode === "signup"
+                  ? "Already have an account? Sign in"
+                  : "New here? Create an account"}
+              </Button>
+            </fieldset>
           </form>
         )}
         <p role="status" className="mt-5 text-sm">
