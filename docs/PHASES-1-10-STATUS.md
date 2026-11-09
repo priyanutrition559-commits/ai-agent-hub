@@ -1,4 +1,6 @@
-# Phases 1–10: current delivery and remaining work
+# Phases 1–10: workspace refinement delivery and remaining work
+
+Latest gateway continuation: see root [DONE.md](../DONE.md), [PENDING_TASKS.md](../PENDING_TASKS.md) and [gateway security](GATEWAY-SECURITY.md). This document records the preceding UI/recovery pass.
 
 Branch: `arena/8e1f34ee-ai-agent-hub`. Date: 2026-11-09.
 **Production readiness: NOT complete.** The requested all-in-one generation script was not included in the user message. Implementation was done through scoped file edits and shell verification in the existing app.

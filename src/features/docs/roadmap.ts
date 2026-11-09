@@ -64,7 +64,8 @@ export const phases: Phase[] = [
       { title: "Pinned SDK, bounded discovery and policy tests", done: true },
       { title: "Persistent connector CRUD and secret rotation", done: false },
       { title: "Provider OAuth and real connection health", done: false },
-      { title: "SSRF-safe egress gateway with DNS/IP pinning", done: false },
+      { title: "DNS/IP-pinned worker transport and isolated tests", done: true },
+      { title: "Deploy gateway and verify real network protections", done: false },
     ],
   },
   {
