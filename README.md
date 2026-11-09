@@ -32,3 +32,7 @@ Start with [the implementation audit](docs/IMPLEMENTATION-REPORT.md). This branc
 - [Local setup and operator runbook](docs/OPERATOR-RUNBOOK.md)
 
 Use `bun install --frozen-lockfile`, then `bun run dev -- --host 0.0.0.0`.
+
+### Latest workspace continuation
+
+See [Phases 1–10 status](docs/PHASES-1-10-STATUS.md) and [UX/component contracts](docs/UX-AND-COMPONENTS.md). The app now includes a refined light/dark workspace, Cmd/Ctrl+K navigation, progressive agent draft builder, password recovery screens, documentation and a transparent `/roadmap`. Production execution remains blocked pending the managed backend and secure worker.

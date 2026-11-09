@@ -1,11 +1,16 @@
 import { useHydrated } from "@/hooks/use-hydrated";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/layout/app-shell";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-export const Route = createFileRoute("/sign-in")({ component: Account });
+export const Route = createFileRoute("/sign-in")({
+  head: () => ({
+    meta: [{ title: "Your account | Technology Universe" }, { name: "robots", content: "noindex" }],
+  }),
+  component: Account,
+});
 function Account() {
   const hydrated = useHydrated();
   const [email, setEmail] = useState<string | null>(null);
@@ -63,7 +68,7 @@ function Account() {
   }
   return (
     <AppShell>
-      <div className="mx-auto max-w-md rounded-xl border p-7">
+      <div className="surface-card mx-auto max-w-md p-7 md:p-9">
         <h1 className="text-2xl font-semibold">
           {email ? "Your account" : mode === "signup" ? "Create your account" : "Welcome back"}
         </h1>
@@ -114,6 +119,14 @@ function Account() {
               </Button>
             </fieldset>
           </form>
+        )}
+        {!email && (
+          <Link
+            to="/account/forgot-password"
+            className="mt-5 block text-center text-xs font-medium text-primary"
+          >
+            Forgot your password?
+          </Link>
         )}
         <p role="status" className="mt-5 text-sm">
           {message}

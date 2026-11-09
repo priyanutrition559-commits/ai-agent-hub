@@ -32,4 +32,7 @@ Directory presence does not connect GitHub, Notion, Docs, calendars, WordPress, 
 
 ## Release / GitHub
 
-This session is restricted to branch `arena/5df7f1be-ai-agent-hub`. Changes may be pushed there and reviewed in a PR targeting main. No force pushes, no history rewrites, no direct main push. CI is validation only; automatic production deployment is intentionally not configured. Review checks and complete the blocked backend phase before a production merge.
+Work only on the active Arena session branch. The current continuation branch is `arena/8e1f34ee-ai-agent-hub`; the earlier branch was merged. Changes may be pushed to the active branch and reviewed in a PR targeting main. No force pushes, no history rewrites, no direct main push. CI is validation only; automatic production deployment is intentionally not configured. Review checks and complete the blocked backend phase before a production merge.
+
+
+For recovery email configuration, component behavior, and accessibility coverage, see [UX and component contracts](UX-AND-COMPONENTS.md). For current delivered/pending work, see [the phase matrix](PHASES-1-10-STATUS.md).
