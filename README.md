@@ -22,3 +22,13 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Technology Universe integration foundation
+
+Start with [the implementation audit](docs/IMPLEMENTATION-REPORT.md). This branch adds the navigable integration workspace and tested policy/SDK building blocks, **not a production-connected agent executor**. Live MCP actions remain blocked pending the Lovable-managed database and trusted execution gateway.
+
+- [Architecture, threat model and runtime boundaries](docs/MCP-ARCHITECTURE.md)
+- [Database / RLS handoff for Lovable](docs/DATABASE-HANDOFF.md)
+- [Local setup and operator runbook](docs/OPERATOR-RUNBOOK.md)
+
+Use `bun install --frozen-lockfile`, then `bun run dev -- --host 0.0.0.0`.
