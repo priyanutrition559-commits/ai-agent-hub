@@ -46,3 +46,7 @@ See [DONE.md](DONE.md), [PENDING_TASKS.md](PENDING_TASKS.md), and [gateway secur
 ### Stack Atlas branding and public landing page
 
 The supplied Guidesoft mark now appears across the workspace, with real favicon/Apple icon derivatives. Visit `/product` for the public Stack Atlas landing page; `/` remains the existing Ecosystem Control Panel. The SVG-first Motion hero, animated catalogue layouts, keyboard-accessible tabs and mobile drawer honor reduced motion. See [branding and motion](docs/BRANDING-AND-MOTION.md) for implementation and fallback details. Existing TanStack runtime, routes and catalogue records are preserved.
+
+### Encrypted credentials and approval contracts
+
+Worker-only AES-GCM envelopes, private single-host encrypted storage and exact-call approval contracts are now implemented and tested. They are not wired to hosted execution and do not replace RLS, transactional approval/audit storage or provider authorization. See [security boundaries and operator requirements](docs/SECRETS-AND-APPROVALS.md).

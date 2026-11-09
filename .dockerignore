@@ -17,3 +17,4 @@ secrets
 .secrets
 *.pem
 *.key
+.worker-vault

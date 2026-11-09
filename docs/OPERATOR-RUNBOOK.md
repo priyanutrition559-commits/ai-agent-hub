@@ -32,10 +32,13 @@ Directory presence does not connect GitHub, Notion, Docs, calendars, WordPress, 
 
 ## Release / GitHub
 
-Work only on the active Arena session branch. The current continuation branch is `arena/cbda1946-ai-agent-hub`; the earlier branch was merged. Changes may be pushed to the active branch and reviewed in a PR targeting main. No force pushes, no history rewrites, no direct main push. CI is validation only; automatic production deployment is intentionally not configured. Review checks and complete the blocked backend phase before a production merge.
+Work only on the active Arena session branch. The current continuation branch is `arena/30fd11f7-ai-agent-hub`; the earlier branch was merged. Changes may be pushed to the active branch and reviewed in a PR targeting main. No force pushes, no history rewrites, no direct main push. CI is validation only; automatic production deployment is intentionally not configured. Review checks and complete the blocked backend phase before a production merge.
 
 
 For recovery email configuration, component behavior, and accessibility coverage, see [UX and component contracts](UX-AND-COMPONENTS.md). For current delivered/pending work, see [the phase matrix](PHASES-1-10-STATUS.md).
 
 
 The latest worker-only egress library and its deployment boundaries are described in [GATEWAY-SECURITY.md](GATEWAY-SECURITY.md). Root [DONE.md](../DONE.md) and [PENDING_TASKS.md](../PENDING_TASKS.md) record the current verification and remaining prerequisites.
+
+
+For the optional controlled-worker encrypted file store, master-key rotation, stale-lock recovery and the exact-call approval database contract, read [SECRETS-AND-APPROVALS.md](SECRETS-AND-APPROVALS.md) before deployment. No worker bootstrap or production key loader is configured yet.
