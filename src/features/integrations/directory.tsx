@@ -1,3 +1,4 @@
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { Link } from "@tanstack/react-router";
 import { Plus, Search, ShieldCheck } from "lucide-react";
@@ -13,6 +14,7 @@ import { categories, connectors } from "./catalogue";
 import { cataloguePage, type CatalogueSort } from "./catalogue-view";
 export function Directory({ explorer = false }: { explorer?: boolean }) {
   const hydrated = useHydrated();
+  const reduced = useReducedMotion();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All categories");
   const [page, setPage] = useState(1);
@@ -133,10 +135,30 @@ export function Directory({ explorer = false }: { explorer?: boolean }) {
           </Button>
         )}
       </div>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {result.items.map((c) => (
-          <ConnectorCard key={c.id} connector={c} />
-        ))}
+      <div className="relative grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <AnimatePresence initial={false} mode="popLayout">
+          {result.items.map((c) => (
+            <motion.article
+              key={c.id}
+              layout={reduced ? false : "position"}
+              initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : -4 }}
+              transition={
+                reduced
+                  ? { duration: 0 }
+                  : {
+                      layout: { type: "spring", stiffness: 340, damping: 32 },
+                      opacity: { duration: 0.14 },
+                      y: { duration: 0.18 },
+                    }
+              }
+              className="h-full min-w-0"
+            >
+              <ConnectorCard connector={c} />
+            </motion.article>
+          ))}
+        </AnimatePresence>
       </div>
       {!result.total && (
         <EmptyState

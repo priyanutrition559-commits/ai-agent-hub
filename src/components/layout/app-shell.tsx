@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/brand/brand-logo";
 import { CommandPalette } from "@/components/workspace/command-palette";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { useTheme } from "@/hooks/use-theme";
@@ -40,14 +41,11 @@ export function AppShell({ children }: { children: ReactNode }) {
       </a>
       <header className="flex h-[76px] items-center justify-between gap-3 border-b bg-card px-4 sm:px-7">
         <Link to="/" className="flex min-w-0 items-center gap-2.5 font-semibold tracking-tight">
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <Workflow size={19} aria-hidden="true" />
-          </span>
-          <span className="text-sm sm:text-base">
-            Technology
-            <span className="block text-[10px] font-medium uppercase tracking-[.24em] text-muted-foreground sm:ml-1 sm:inline sm:text-base sm:font-normal sm:normal-case sm:tracking-tight">
-              {" "}
-              Universe
+          <BrandLogo decorative className="size-10" />
+          <span className="text-sm font-semibold sm:text-base">
+            Stack Atlas
+            <span className="block text-[9px] font-medium uppercase tracking-[.18em] text-muted-foreground">
+              by Guidesoft
             </span>
           </span>
         </Link>
@@ -76,7 +74,15 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
       <div className="mx-auto flex max-w-[1720px] flex-col lg:flex-row">
-        <aside className="border-b bg-card px-4 py-3 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col lg:border-r lg:border-b-0 lg:px-5 lg:py-8">
+        <aside className="border-b bg-card px-4 py-3 lg:sticky lg:top-0 lg:flex lg:min-h-screen lg:w-60 lg:shrink-0 lg:flex-col lg:border-r lg:border-b-0 lg:px-5 lg:py-8">
+          <Link
+            to="/product"
+            className="mb-7 hidden flex-col items-start gap-3 px-3 lg:flex"
+            aria-label="Stack Atlas by Guidesoft marketing page"
+          >
+            <BrandLogo className="size-16" />
+            <span className="text-lg font-semibold tracking-tight">Stack Atlas</span>
+          </Link>
           <div className="mb-8 hidden rounded-xl border bg-background p-3 lg:block">
             <p className="text-xs font-semibold">Personal workspace</p>
             <p className="mt-1.5 flex items-center gap-1.5 text-[10px] text-muted-foreground">
@@ -124,7 +130,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             {children}
           </main>
           <footer className="mx-5 flex flex-wrap items-center justify-between gap-4 border-t py-6 text-[11px] text-muted-foreground md:mx-8 xl:mx-12">
-            <span>Technology Universe · Built with intention.</span>
+            <span>Stack Atlas by Guidesoft · Built with intention.</span>
             <nav aria-label="Footer navigation" className="flex flex-wrap gap-5">
               <Link to="/docs/$slug" params={{ slug: "getting-started" }}>
                 Setup guide

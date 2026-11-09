@@ -17,7 +17,8 @@
 ## 3. Design system — partially implemented
 - [ ] Consolidate remaining screens onto shared components.
 - [ ] Build real approval/confirmation/audit components when backend contracts exist.
-- [ ] Review any decorative glass/canvas effects for performance/accessibility; no 3D hero implemented.
+- [x] SVG-first pointer-responsive Motion hero with static/reduced-motion fallback.
+- [ ] Profile animation on real low-end hardware; heavy WebGL/canvas effects remain unnecessary.
 
 ## 4. Explorer — metadata UI implemented, persistence pending
 - [ ] Database-backed search, provenance review and content publishing.
@@ -46,7 +47,8 @@
 
 ## 8. Marketing/docs/legal — partial
 - [ ] Owner-approved support details, operating entity, privacy/terms and retention/subprocessor policies.
-- [ ] Actual brand assets, production SEO/canonical URLs/sitemap and any approved pricing plans.
+- [x] Supplied Guidesoft logo, favicon and Stack Atlas public landing page.
+- [ ] Production SEO/canonical URLs/sitemap and any approved pricing plans.
 - [ ] Update documentation as deployed behavior changes; do not claim compliance from templates.
 
 ## 9. Accessibility / responsiveness — automated baseline present

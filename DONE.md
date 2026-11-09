@@ -1,5 +1,16 @@
 # Completed work — implementation evidence, not production certification
 
+## Latest branding pass — `arena/8c57fcfa-ai-agent-hub`
+
+- Integrated the supplied Guidesoft logo unchanged; generated favicon, Apple touch icon and display-size derivative.
+- Added Stack Atlas identity to workspace header/sidebar and upgraded `/product` into a public marketing page; `/` remains the existing control panel.
+- Added SVG-first pointer-responsive Motion 3D hero, animated directory layouts, accessible architecture tabs and a focus-trapped marketing drawer.
+- Kept existing routes, backend functions and all nine bundled catalogue records intact. This checkout is TanStack Start, not Next.js; no 46-record catalogue was found or regenerated.
+- Local checks: typecheck/build/lint passed (13 pre-existing warnings), 127 unit tests and 30 browser tests passed. No universal 60fps claim.
+- See [branding and motion](docs/BRANDING-AND-MOTION.md) for fallback and asset reproduction details.
+
+## Previous gateway continuation
+
 Current continuation: `arena/cbda1946-ai-agent-hub`, 2026-11-09.
 
 ## Preserved from merged work
