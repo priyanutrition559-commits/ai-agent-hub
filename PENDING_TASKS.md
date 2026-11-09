@@ -29,14 +29,16 @@
 - [ ] Deploy the isolated Node worker and its independent network restrictions.
 - [ ] Real TLS, DNS rebinding, slow/chunked stream and cancellation tests against staging infrastructure.
 - [ ] Wire authenticated tenant-scoped jobs to operator-owned endpoint policies.
-- [ ] Implement encrypted secret storage/vault integration, versioned references, rotation and revocation.
+- [x] Implement tested AES-GCM envelopes and a private single-host encrypted file vault with encryption-key rotation.
+- [ ] Deploy worker secret storage, provision master-key access, provider-token rotation/revocation, backup/restore and tenant/job authorization.
 - [ ] Provider OAuth, persistent connector CRUD/discovery, permissions and health checks.
 - [ ] End-to-end connect/disconnect/read-only/error-path lifecycle tests.
 
 ## 6. Agents & approvals — execution blocked
 - [ ] Persist profiles and reviewed per-agent/per-tool grants.
 - [ ] Implement Lovable gateway model calls, sequential workflows and durable queue/leases.
-- [ ] Atomically consume exact-call approvals with TTL/schema/arguments binding.
+- [x] Implement bounded exact-call binding and owner/expiry/decision validation contracts with isolated tests.
+- [ ] Implement durable transactional approval consumption, quota reservation and audit insertion in the managed database.
 - [ ] Durable audit transactions, budgets, quotas, concurrency, circuit breakers and cancellation.
 - [ ] Real diagnostics/test-run panel; never generate fake execution results.
 

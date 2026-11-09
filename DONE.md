@@ -1,5 +1,16 @@
 # Completed work — implementation evidence, not production certification
 
+## Latest worker-security pass — `arena/30fd11f7-ai-agent-hub`
+
+- Added AES-256-GCM credential envelopes bound to tenant/reference/key version, with tamper detection and encryption-key rotation.
+- Added a private single-host file vault with encrypted-only persistence, exclusive operation locks, atomic writes, permission/symlink checks and local credential deletion.
+- Added bounded canonical JSON argument hashing and exact-call approval binding/consumption contracts. The production transactional repository is still pending; replay tests use an isolated fixture.
+- Updated deprecated TanStack `inputValidator` calls to `validator` without enabling mutations.
+- Ran the shell validation script with browser checks: **147 unit/component/protocol/security tests and 30 Chromium browser tests passed**; typecheck, lint (13 existing warnings) and production build passed.
+- No managed migration, deployment secret, live connection, provider-token rotation or production approval ledger was created.
+- See [secrets and approval boundaries](docs/SECRETS-AND-APPROVALS.md). All ten phases are not complete; deployment dependencies cannot be replaced by shell scaffolding.
+
+
 ## Latest branding pass — `arena/8c57fcfa-ai-agent-hub`
 
 - Integrated the supplied Guidesoft logo unchanged; generated favicon, Apple touch icon and display-size derivative.

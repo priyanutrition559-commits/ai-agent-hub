@@ -36,3 +36,8 @@ dist-ssr
 !.env.example
 playwright-report/
 test-results/
+
+# Private worker storage must never be committed
+.secrets/
+/secrets/
+.worker-vault/

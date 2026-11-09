@@ -13,15 +13,15 @@ const blocked = {
 };
 export const validateServerDraft = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator(serverDraftSchema)
+  .validator(serverDraftSchema)
   .handler(() => ({ ...blocked, valid: true }));
 export const validateAgentDraft = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator(agentDraftSchema)
+  .validator(agentDraftSchema)
   .handler(() => blocked);
 export const connectorAction = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator(
+  .validator(
     z
       .object({
         connectorId: z.string().min(1).max(80),
