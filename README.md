@@ -46,3 +46,11 @@ See [DONE.md](DONE.md), [PENDING_TASKS.md](PENDING_TASKS.md), and [gateway secur
 ### Stack Atlas branding and public landing page
 
 The supplied Guidesoft mark now appears across the workspace, with real favicon/Apple icon derivatives. Visit `/product` for the public Stack Atlas landing page; `/` remains the existing Ecosystem Control Panel. The SVG-first Motion hero, animated catalogue layouts, keyboard-accessible tabs and mobile drawer honor reduced motion. See [branding and motion](docs/BRANDING-AND-MOTION.md) for implementation and fallback details. Existing TanStack runtime, routes and catalogue records are preserved.
+
+
+## Repository maintenance
+
+- Supplied brand mark: `public/brand-logo.svg` (favicon asset: `public/favicon.svg`).
+- Automated dependency installation and available lint/typecheck/test/build checks: [ChatGPT Agent CI](.github/workflows/chatgpt-agent-ci.yml).
+- Outstanding verification and project-specific work: [PENDING_TASKS.md](PENDING_TASKS.md).
+- Lovable AI agents are not part of this maintenance workflow; use ChatGPT as the coordinating agent.
