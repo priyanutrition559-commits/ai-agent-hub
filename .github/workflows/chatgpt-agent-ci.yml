@@ -1,0 +1,103 @@
+name: ChatGPT Agent - Install, Build and Test
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: chatgpt-agent-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    name: Detect, install, build and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            pnpm-lock.yaml
+            yarn.lock
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Bun if needed
+        if: hashFiles('bun.lock', 'bun.lockb') != ''
+        uses: oven-sh/setup-bun@v2
+      - name: Install Node dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f package.json ]; then
+            if [ -f bun.lock ] || [ -f bun.lockb ]; then
+              bun install --frozen-lockfile
+              RUNNER_PM=bun
+            elif [ -f pnpm-lock.yaml ]; then
+              corepack enable
+              pnpm install --frozen-lockfile
+              RUNNER_PM=pnpm
+            elif [ -f yarn.lock ]; then
+              corepack enable
+              yarn install --immutable || yarn install --frozen-lockfile
+              RUNNER_PM=yarn
+            elif [ -f package-lock.json ]; then
+              npm ci
+              RUNNER_PM=npm
+            else
+              npm install
+              RUNNER_PM=npm
+            fi
+            echo "RUNNER_PM=$RUNNER_PM" >> "$GITHUB_ENV"
+            node -e "const p=require('./package.json'); console.log('Scripts:', JSON.stringify(p.scripts||{}))"
+          else
+            echo "No root package.json; skipping Node install."
+          fi
+      - name: Install Python dependencies and compile
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
+          if [ -f pyproject.toml ]; then
+            python -m pip install -e . || echo "Editable install unavailable; inspect pyproject.toml"
+          fi
+          if [ -d . ]; then
+            find . -path './.git' -prune -o -path './node_modules' -prune -o -name '*.py' -print0 | xargs -0 -r python -m py_compile
+          fi
+      - name: Run available Node checks
+        if: hashFiles('package.json') != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const p = require('./package.json');
+          const pm = process.env.RUNNER_PM || 'npm';
+          const run = require('node:child_process').spawnSync;
+          for (const script of ['lint', 'typecheck', 'check', 'test', 'build']) {
+            if (p.scripts?.[script]) {
+              console.log('Running:', script);
+              const cmd = pm === 'npm' ? 'npm' : pm;
+              const args = pm === 'npm' ? ['run', script, '--if-present'] : ['run', script];
+              const r = run(cmd, args, {stdio:'inherit'});
+              if (r.status !== 0) process.exit(r.status || 1);
+            }
+          }
+          NODE
+      - name: Write verification summary
+        if: always()
+        run: |
+          {
+            echo "## Automated verification"
+            echo "- Commit: $GITHUB_SHA"
+            echo "- Node: $(node --version)"
+            echo "- Python: $(python --version)"
+            echo "- Workflow checks are limited to scripts/manifests present in this repository."
+          } >> "$GITHUB_STEP_SUMMARY"
