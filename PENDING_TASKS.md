@@ -17,3 +17,8 @@
 
 ## Agent policy
 ChatGPT is the coordinating agent. Do not invoke Lovable AI agents or consume Lovable AI credits. Aider and Claude Code are optional local tools configured by the owner.
+
+
+## Latest verification — 2026-11-10
+- [x] GitHub Actions dependency installation and available build/test checks completed successfully.
+- [ ] Review and resolve any non-blocking lint findings shown in the Actions logs.
